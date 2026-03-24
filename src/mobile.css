@@ -1,0 +1,517 @@
+/* ── Base resets for mobile ──────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+#root {
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+@media (max-width: 768px) {
+  .modern-nav {
+    height: 60px;
+  }
+
+  .nav-container {
+    padding: 0 16px;
+  }
+
+  /* Hide nav links — show only logo + user */
+  .nav-group {
+    display: none;
+  }
+
+  .brand-text {
+    font-size: 1.2rem;
+  }
+
+  .logo-wrapper svg {
+    width: 36px !important;
+    height: 36px !important;
+  }
+
+  /* Compact profile pill */
+  .user-name-pill {
+    display: none;
+  }
+
+  .fav-badge {
+    display: none;
+  }
+
+  .profile-pill {
+    padding: 5px 10px 5px 5px;
+    gap: 6px;
+  }
+
+  .user-avatar {
+    width: 30px;
+    height: 30px;
+    font-size: 0.68rem;
+  }
+
+  /* Dropdown full width on mobile */
+  .dropdown-menu {
+    width: calc(100vw - 32px);
+    right: -8px;
+    border-radius: 16px;
+  }
+
+  /* Auth buttons compact */
+  .signup-cta {
+    padding: 8px 14px;
+    font-size: 0.82rem;
+  }
+
+  .login-btn {
+    display: none;
+  }
+}
+
+/* ============================================================
+   DASHBOARD / APP PAGE
+   ============================================================ */
+@media (max-width: 640px) {
+
+  /* Hero */
+  .app-header {
+    padding: 56px 20px 44px;
+  }
+
+  .hero-title {
+    font-size: 1.85rem;
+    letter-spacing: -0.8px;
+    line-height: 1.18;
+  }
+
+  .app-description {
+    font-size: 0.88rem;
+    margin-bottom: 24px;
+  }
+
+  .hero-badge {
+    font-size: 0.72rem;
+    padding: 5px 12px;
+    margin-bottom: 16px;
+  }
+
+  .hero-location-pill {
+    font-size: 0.65rem;
+    padding: 4px 10px;
+    top: 14px;
+    left: 14px;
+  }
+
+  .hero-stats {
+    gap: 14px;
+  }
+
+  .hero-stat-num {
+    font-size: 1.25rem;
+  }
+
+  .hero-stat-label {
+    font-size: 0.6rem;
+  }
+
+  .hero-stat-divider {
+    height: 24px;
+  }
+
+  .hero-dots {
+    margin-bottom: 24px;
+  }
+
+  /* Search section */
+  .search-section {
+    padding: 28px 16px 36px;
+  }
+
+  .search-section-label {
+    font-size: 0.65rem;
+    margin-bottom: 12px;
+  }
+
+  .info-banner {
+    padding: 10px 14px;
+    font-size: 0.8rem;
+    border-radius: 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* Route section */
+  .route-section {
+    padding: 0 16px 48px;
+  }
+
+  .route-section-header {
+    margin-bottom: 20px;
+  }
+
+  /* Cards stack vertically */
+  .cards-horizontal-row {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .trek-card-wrapper,
+  .weather-card-wrapper {
+    flex: none;
+    width: 100%;
+  }
+
+  /* Map */
+  .map-wrapper {
+    border-radius: 16px;
+    margin-bottom: 16px;
+  }
+}
+
+/* ============================================================
+   SEARCHBAR
+   ============================================================ */
+@media (max-width: 640px) {
+
+  /* SearchBar wrapper */
+  div[style*="maxWidth: 780"] {
+    max-width: 100% !important;
+    border-radius: 16px !important;
+    padding: 16px !important;
+  }
+
+  /* Favor button inside search */
+  button[style*="favBtn"] {
+    font-size: 0.8rem !important;
+  }
+}
+
+/* ============================================================
+   WEATHER CARD
+   ============================================================ */
+@media (max-width: 640px) {
+  .weather-card-horizontal {
+    padding: 20px 16px !important;
+    border-radius: 18px !important;
+    min-height: unset !important;
+  }
+
+  .horizontal-container {
+    flex-direction: column !important;
+    gap: 16px !important;
+    align-items: flex-start !important;
+  }
+
+  .v-divider {
+    display: none !important;
+  }
+
+  .current-section {
+    padding-right: 0 !important;
+    min-width: unset !important;
+    max-width: 100% !important;
+    gap: 10px !important;
+  }
+
+  .current-temp {
+    font-size: 2.4rem !important;
+    letter-spacing: -2px !important;
+  }
+
+  .current-main img {
+    width: 56px !important;
+    height: 56px !important;
+  }
+
+  .current-stats {
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+  }
+
+  .current-stats span {
+    font-size: 0.7rem !important;
+    padding: 4px 10px !important;
+  }
+
+  .forecast-horizontal-section {
+    width: 100% !important;
+    overflow: hidden !important;
+  }
+
+  .forecast-row-strip {
+    overflow-x: auto !important;
+    scrollbar-width: none !important;
+    gap: 6px !important;
+  }
+
+  .forecast-row-strip::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .forecast-mini-card {
+    flex: 0 0 62px !important;
+    min-width: 62px !important;
+    min-height: 80px !important;
+    padding: 8px 4px !important;
+    border-radius: 10px !important;
+  }
+
+  .forecast-mini-card img {
+    width: 22px !important;
+    height: 22px !important;
+  }
+
+  .mini-date {
+    font-size: 0.5rem !important;
+  }
+
+  .mini-temp {
+    font-size: 0.72rem !important;
+  }
+
+  .section-label {
+    font-size: 0.56rem !important;
+  }
+}
+
+/* ============================================================
+   TREK CARD
+   ============================================================ */
+@media (max-width: 640px) {
+  .trek-card {
+    padding: 18px 16px !important;
+    border-radius: 18px !important;
+  }
+
+  .trek-title {
+    font-size: 1.1rem !important;
+    margin-bottom: 16px !important;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px !important;
+    padding-top: 14px !important;
+  }
+
+  .stat-value {
+    font-size: 1rem !important;
+  }
+
+  .view-details-btn {
+    padding: 12px !important;
+    font-size: 0.85rem !important;
+    margin-top: 16px !important;
+  }
+
+  .location-flow {
+    gap: 12px !important;
+    margin-bottom: 20px !important;
+  }
+
+  .loc-item {
+    font-size: 0.85rem !important;
+    gap: 10px !important;
+  }
+}
+
+/* ============================================================
+   MAP CARD
+   ============================================================ */
+@media (max-width: 640px) {
+  /* Map height reduced on mobile */
+  .leaflet-container {
+    height: 300px !important;
+  }
+
+  /* Legend smaller */
+  div[style*="legend"] {
+    padding: 6px 10px !important;
+    font-size: 0.65rem !important;
+  }
+
+  /* Layer switcher smaller */
+  div[style*="layerCard"] {
+    padding: 6px 8px !important;
+  }
+}
+
+/* ============================================================
+   TREK INFO (Resources + Safety)
+   ============================================================ */
+@media (max-width: 640px) {
+  /* TrekInfo grid → single column */
+  div[style*="gridTemplateColumns: \"1fr 1fr\""] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ============================================================
+   PROFILE PAGE
+   ============================================================ */
+@media (max-width: 768px) {
+
+  /* Full page padding */
+  div[style*="padding: \"40px 32px"] {
+    padding: 20px 16px 60px !important;
+  }
+
+  /* Two-column → single column */
+  div[style*="gridTemplateColumns: \"320px 1fr\""] {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+  /* Remove sticky on mobile */
+  div[style*="position: \"sticky\""] {
+    position: static !important;
+  }
+
+  /* Stats 3-col → single row scrollable */
+  div[style*="gridTemplateColumns: \"repeat(3, 1fr)\""] {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 10px !important;
+  }
+}
+
+/* ============================================================
+   FAVORITES PAGE
+   ============================================================ */
+@media (max-width: 640px) {
+
+  /* Reduce page padding */
+  div[style*="padding: \"40px 32px 80px\""] {
+    padding: 24px 16px 60px !important;
+  }
+
+  /* Grid → single column */
+  div[style*="minmax(320px, 1fr)"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Header flex wrap */
+  div[style*="justifyContent: \"space-between\""][style*="flexWrap: \"wrap\""] {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  /* Search bar full width */
+  input[style*="width: 240"] {
+    width: 100% !important;
+  }
+}
+
+/* ============================================================
+   LOGIN / SIGNUP PAGES
+   ============================================================ */
+@media (max-width: 640px) {
+
+  /* Card becomes vertical stack */
+  div[style*="min(750px, 85%)"] {
+    flex-direction: column !important;
+    width: 92% !important;
+    height: auto !important;
+    min-height: auto !important;
+    max-height: 92vh !important;
+    overflow-y: auto !important;
+  }
+
+  /* Hide left image panel on mobile */
+  div[style*="opacity: 0.85"][style*="overflow: \"hidden\""] {
+    display: none !important;
+  }
+
+  /* Right panel full width */
+  div[style*="padding: \"25px 40px\""] {
+    padding: 28px 24px !important;
+    flex: none !important;
+    width: 100% !important;
+  }
+}
+
+/* ============================================================
+   DEVELOPER CONTACT PAGE
+   ============================================================ */
+@media (max-width: 640px) {
+
+  /* Hero */
+  div[style*="padding: \"100px 32px"] {
+    padding: 60px 20px 48px !important;
+  }
+
+  h1[style*="fontSize: \"3rem\""] {
+    font-size: 2rem !important;
+  }
+
+  /* Team grid → single column */
+  div[style*="minmax(260px, 1fr)"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* About card stack */
+  div[style*="padding: \"48px 52px\""] {
+    padding: 28px 24px !important;
+    flex-direction: column !important;
+  }
+}
+
+/* ============================================================
+   ABOUT PAGE
+   ============================================================ */
+@media (max-width: 640px) {
+  /* General section padding reduction */
+  section {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+}
+
+/* ============================================================
+   NOTFOUND PAGE
+   ============================================================ */
+@media (max-width: 640px) {
+  /* 404 code smaller */
+  div[style*="fontSize: \"5rem\""] {
+    font-size: 3.5rem !important;
+  }
+}
+
+/* ============================================================
+   GLOBAL TOUCH IMPROVEMENTS
+   ============================================================ */
+@media (max-width: 768px) {
+  /* Bigger tap targets for all buttons */
+  button, a {
+    min-height: 40px;
+  }
+
+  /* Prevent text size inflation on iOS */
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  /* Smooth scrolling */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Remove hover states on touch (prevents stuck hover) */
+  .card:hover {
+    transform: none !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12) !important;
+  }
+
+  .nav-btn:hover {
+    background: transparent !important;
+    color: #475569 !important;
+  }
+}

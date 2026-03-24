@@ -1,0 +1,48 @@
+/* Reset browser defaults to allow background to touch the edges */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevents unwanted horizontal scrolling */
+  background: linear-gradient(170deg, #0a1628 0%, #0f1e30 40%, #0d1b2a 100%);
+  color: rgba(255, 255, 255, 0.85);
+  font-family: 'DM Sans', 'Inter', system-ui, sans-serif;
+}
+
+/* Fix the #root container which was restricting your width to 1280px */
+#root {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  background: transparent; /* Let body background show through */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Optional: Smooth transitions for the entire app */
+a {
+  transition: color 0.3s ease;
+}
+
+button {
+  transition: all 0.3s ease;
+}
+
+/* Ensure all text uses the dark theme by default */
+h1, h2, h3, h4, h5, h6, p, span, div {
+  color: inherit;
+}
+
+/* Ensure all sections and containers are transparent */
+section, main, article, aside, header, footer {
+  background: transparent;
+}

@@ -1,0 +1,157 @@
+/* ── Reset ───────────────────────────────────────────────── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(170deg, #0a1628 0%, #0f1e30 40%, #0d1b2a 100%);
+  font-family: 'DM Sans', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: rgba(255, 255, 255, 0.85);
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+}
+
+a {
+  color: #84cc16;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+a:hover {
+  color: #a3e635;
+  text-decoration: underline;
+}
+
+button {
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.85);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(132, 204, 22, 0.5);
+}
+
+input, textarea {
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  color: #f0f9ff;
+  border-radius: 8px;
+  width: 100%;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #84cc16;
+  background: rgba(255, 255, 255, 0.08);
+}
+input::placeholder, textarea::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* ── Spinner ─────────────────────────────────────────────── */
+.spinner {
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top: 3px solid #84cc16;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  animation: spin 0.8s linear infinite;
+}
+
+/* ── Keyframes ───────────────────────────────────────────── */
+@keyframes spin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Used by App.jsx auth loader progress bar */
+@keyframes slide {
+  0%   { transform: translateX(-100%); }
+  50%  { transform: translateX(150%); }
+  100% { transform: translateX(150%); }
+}
+
+/* ══════════ GLOBAL MOBILE FIXES ════════════════════════════ */
+
+/* Prevent horizontal overflow on all pages */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+#root {
+  overflow-x: hidden;
+}
+
+/* SearchBar full width on mobile */
+@media (max-width: 480px) {
+  .searchbar-wrapper {
+    border-radius: 16px !important;
+    padding: 16px 14px !important;
+  }
+
+  /* Map height on mobile */
+  .leaflet-container {
+    height: 280px !important;
+  }
+
+  /* Bigger tap targets — exclude decorative dots */
+  button:not(.hero-dot) {
+    min-height: 44px;
+  }
+}
+
+/* Prevent iOS input zoom — font must be 16px or larger */
+@media (max-width: 768px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* Prevent iOS text size inflation */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Ensure all pages use dark theme */
+.app-page,
+.profile-page,
+.fav-page,
+.about-page,
+.developer-page {
+  background: transparent !important;
+}
+
+/* Remove any white backgrounds from cards and containers */
+.card,
+.modal,
+.dropdown,
+.popup {
+  background: rgba(15, 23, 42, 0.85) !important;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
