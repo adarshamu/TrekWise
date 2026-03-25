@@ -16,22 +16,9 @@
   text-align: center;
   padding: 80px 24px 60px;
   overflow: hidden;
-  background-color: #0f172a; /* fallback */
+  background-color: #0f172a;
   background-size: cover;
   background-position: center;
-}
-
-/* Subtle grid texture (like footer) */
-.app-header::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-  background-size: 48px 48px;
-  pointer-events: none;
-  z-index: 0;
 }
 
 /* Location pill (top left) */
@@ -353,104 +340,6 @@
 }
 
 /* ═══════════════════════════════════════════════════════════
-   CONTINENT CAROUSEL
-═══════════════════════════════════════════════════════════ */
-.app-section {
-  padding: 0 0 64px;
-  overflow: hidden;
-}
-
-.section-header {
-  text-align: center;
-  padding: 0 24px;
-  margin-bottom: 24px;
-}
-
-.app-section h2,
-.section-header h2 {
-  font-size: 1.8rem;
-  font-weight: 800;
-  color: #f0f9ff;
-  margin: 0 0 8px;
-  letter-spacing: -0.8px;
-}
-
-.section-sub {
-  font-size: 0.88rem;
-  color: rgba(255, 255, 255, 0.5);
-  margin: 0;
-  font-weight: 400;
-}
-
-/* Carousel */
-.carousel {
-  overflow: hidden;
-  width: 100%;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
-  mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
-}
-
-.track {
-  display: flex;
-  animation: scroll 38s linear infinite;
-  width: max-content;
-}
-
-.carousel:hover .track {
-  animation-play-state: paused;
-}
-
-.card {
-  width: 320px;
-  height: 210px;
-  background-size: cover;
-  background-position: center;
-  background-color: #0f172a;
-  position: relative;
-  border-radius: 20px;
-  margin-right: 18px;
-  flex-shrink: 0;
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-/* Dark gradient overlay on card */
-.card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.1) 60%);
-  border-radius: 20px;
-  z-index: 0;
-}
-
-.card:hover {
-  transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-  border-color: rgba(132, 204, 22, 0.3);
-}
-
-.overlay {
-  position: absolute;
-  bottom: 16px;
-  left: 16px;
-  color: #fff;
-  font-size: 0.95rem;
-  font-weight: 700;
-  z-index: 1;
-  letter-spacing: -0.2px;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-}
-
-@keyframes scroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-/* ═══════════════════════════════════════════════════════════
    RESPONSIVE
 ═══════════════════════════════════════════════════════════ */
 @media (max-width: 900px) {
@@ -465,11 +354,6 @@
   }
   .app-description {
     font-size: 0.9rem;
-  }
-  .card {
-    width: 240px;
-    height: 160px;
-    border-radius: 16px;
   }
   .search-section {
     padding: 32px 16px;
@@ -545,20 +429,6 @@
   }
   .loading-overlay {
     font-size: 0.82rem;
-  }
-  .app-section h2,
-  .section-header h2 {
-    font-size: 1.4rem;
-  }
-  .card {
-    width: 220px;
-    height: 148px;
-    margin-right: 12px;
-  }
-  .overlay {
-    font-size: 0.82rem;
-    bottom: 12px;
-    left: 12px;
   }
 }
 

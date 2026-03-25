@@ -1,8 +1,10 @@
+// src/pages/Profile.jsx
 import { useStore } from "../store/useStore";
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase";
+import ReactDOM from "react-dom";
 
 // ── SVG Avatar Definitions ───────────────────────────────────
 const SVG_AVATARS = [
@@ -135,20 +137,6 @@ const SVG_AVATARS = [
     ),
   },
   {
-    id: "island2",
-    label: "Island",
-    svg: (
-      <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
-        <path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z" fill="#8DD9FF"/>
-        <path d="M2.312 560C26.524 820.25 245.426 1024 512 1024s485.476-203.75 509.688-464H2.312z" fill="#3C9BD4"/>
-        <path d="M979.09 721.766A508.962 508.962 0 0 0 1021.688 560H2.312a509.546 509.546 0 0 0 25.48 118.472c181.78 20.098 660.592 39.49 951.298 43.294z" fill="#9AF4EF"/>
-        <path d="M128 560c50 0 138.666-34.666 160-64 13.152-18.084 28.36-55.53 42.666-67.208 18.658-15.228 34.666-15.46 53.334-28.792s101.334-112 128-112c26.666 0 78 60 112 80 37.134 21.844 53.746 76.418 96 96 54.666 25.334 77.334 96 144 96" fill="#52C883"/>
-        <path d="M432 352c-53.334 21.334-112 22.666-128 34.666C291.908 395.736 203.644 560 103.644 560h338.398L432 352z" fill="#52C883"/>
-        <path d="M944 560c-42.666 0-115.384-96.198-160-144-37.334-40-100.05 24-128.05 24v120H944z" fill="#52C883"/>
-      </svg>
-    ),
-  },
-  {
     id: "city",
     label: "City",
     svg: (
@@ -169,7 +157,7 @@ const SVG_AVATARS = [
   },
   {
     id: "forest2",
-    label: "Forest",
+    label: "Deep Forest",
     svg: (
       <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
         <path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z" fill="#9AF4EF"/>
@@ -178,19 +166,6 @@ const SVG_AVATARS = [
         <path d="M978.032 591.57c0 54.878-44.486 99.364-99.364 99.364s-99.364-44.486-99.364-99.364S823.79 368 878.668 368s99.364 168.692 99.364 223.57z" fill="#34BE71"/>
         <path d="M261.842 583.036c0 56.976-46.188 103.166-103.166 103.166s-103.166-46.188-103.166-103.166S101.7 350.914 158.676 350.914s103.166 175.146 103.166 232.122z" fill="#34BE71"/>
         <path d="M668.754 369.366c2.042-8.132 3.246-16.6 3.246-25.366 0-57.438-46.562-104-104-104-6.032 0-11.906 0.624-17.656 1.61-18.186-11.1-39.48-17.61-62.344-17.61-66.274 0-120 53.726-120 120 0 2.974 0.232 5.888 0.444 8.808C338.396 386.696 320 431.148 320 480c0 106.038 85.96 192 192 192s192-85.962 192-192c0-41.238-13.12-79.344-35.246-110.634z" fill="#34BE71"/>
-      </svg>
-    ),
-  },
-  {
-    id: "landscape",
-    label: "Landscape",
-    svg: (
-      <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
-        <path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z" fill="#8DD9FF"/>
-        <path d="M0 512c0 282.77 229.23 512 512 512s512-229.23 512-512c0-32.828-3.214-64.89-9.12-96H9.12C3.214 447.11 0 479.172 0 512z" fill="#3B87C5"/>
-        <path d="M816 416c0-50.666-43.586-70.238-64-80-24.208-11.576-74.666-8-96-48s-36.074-64-48-64c-22.666 0-78.666 10.666-112 48-27.11 30.364-21.334 58.666-64 80-12.844 6.422-48 15.926-48 64v80c0 60 69.334 101.334 96 112s60.422 272 96 272c34.666 0 74.666-130.666 96-144s64-15.778 64-80v-144c42.636-42.636 80 8 80-96z" fill="#BBE6FF"/>
-        <path d="M480 608c26.666 10.666 60.422 272 96 272 34.666 0 74.666-130.666 96-144 21.334-13.334 64-15.778 64-80v-144c42.636-42.636 80 8 80-96H384v80c0 60 69.334 101.334 96 112z" fill="#8DD9FF"/>
-        <path d="M511.152 512c-189.39 0-363.126 41.12-499.262 109.626 48.22 220.958 239.012 388.582 471.196 401.514C792.076 909.898 975.904 745.38 1021.932 512.398 875.57 553.43 701.25 512 511.152 512z" fill="#3C9BD4"/>
       </svg>
     ),
   },
@@ -208,32 +183,6 @@ const SVG_AVATARS = [
     ),
   },
   {
-    id: "fir",
-    label: "Fir Tree",
-    svg: (
-      <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
-        <path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z" fill="#9AF4EF"/>
-        <path d="M8.234 420.956C2.926 450.518 0 480.91 0 512s2.926 61.482 8.234 91.044c112.3 42.29 300.58 70.04 513.992 70.04 200.17 0 378.166-24.428 492.166-62.352C1020.638 578.776 1024 545.786 1024 512s-3.362-66.776-9.606-98.732c-114-37.924-291.996-62.354-492.166-62.354-213.414 0-401.692 27.752-513.994 70.042z" fill="#4CD3CB"/>
-        <path d="M617.028 847.402l52.514 0.002-70.02-105.03h52.514l-70.02-105.03h52.514l-70.02-105.03h52.514l-70.02-105.03h52.514L512 296l-87.524 131.286h52.514l-70.02 105.03h52.514l-70.02 105.03h52.514l-70.02 105.03h52.514l-70.02 105.03h52.514l-31.878 47.816C406.318 1015.648 458.178 1024 512 1024s105.682-8.352 154.412-23.75l-31.878-47.82h52.514l-70.02-105.028z" fill="#00A07D"/>
-        <path d="M324.342 778.422l-18.976 28.464c48.688 1.26 97.368 4.392 144.878 5.298 24.084 0.46 48.352 1.02 72.68 1.536l-23.534-35.3h52.514l-70.02-105.03H534.4l-70.02-105.03h52.514l-70.02-105.03h52.514l-87.524-131.286-87.524 131.286h52.514l-70.02 105.03h52.514l-70.02 105.03h52.514l-70.02 105.03 52.52 0.002z" fill="#00BDB3"/>
-      </svg>
-    ),
-  },
-  {
-    id: "mountain2",
-    label: "Mt. Peak",
-    svg: (
-      <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
-        <path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z" fill="#9DA6ED"/>
-        <path d="M512 500.398m-317.268 0a317.268 317.268 0 1 0 634.536 0 317.268 317.268 0 1 0-634.536 0Z" fill="#FFC8A9"/>
-        <path d="M512 500.398m-168.62 0a168.62 168.62 0 1 0 337.24 0 168.62 168.62 0 1 0-337.24 0Z" fill="#FFD7A8"/>
-        <path d="M1016.484 599.02c-10.938-17.65-56.006-87.02-88.706-87.02-41.208 0-96.78 112-133.204 112-29.138 0-65.56-64-83.252-64-16.65 0-88.456 96-116.552 96H361.666c-49.952 0-117.986-107.53-133.204-128-13.876-18.666-49.952-16-49.952-16S84.16 656 28.66 656h-7.984C82.902 868.636 279.248 1024 512 1024c253.088 0 463.146-183.684 504.484-424.98z" fill="#A17988"/>
-        <path d="M195.704 672c-21.202 0-72.796 64-118.734 64H51.686C134.768 906.478 309.592 1024 512 1024c215.102 0 399.052-132.718 474.824-320.686C955.854 696.56 942.02 640 925.074 640c-14.842 0-99.652 64-118.736 64-29.684 0-35.338-48-67.848-48s-31.804 80-67.848 80c-27.564 0-22.616-16-50.884-16-11.262 0-16.964 16-33.92 16h-101.78c-24.03 0-51.592-32-67.848-32-17.492 0-43.82 32-84.81 32-87.638 0-101.772-64-135.696-64z" fill="#86646A"/>
-        <path d="M512 500.398m-75.064 0a75.064 75.064 0 1 0 150.128 0 75.064 75.064 0 1 0-150.128 0Z" fill="#FFFFFF"/>
-      </svg>
-    ),
-  },
-  {
     id: "desert",
     label: "Desert",
     svg: (
@@ -244,50 +193,6 @@ const SVG_AVATARS = [
         <path d="M832.00006 336c-36-9-95.99-13.292-144 32-53 50-92.666 144-176 144h288l48-144-16-32" fill="#A07766"/>
         <path d="M64.00006 320H37.49406A509.06 509.06 0 0 0 0.00006 512h480c-129 0-270-192-416-192z" fill="#8C665B"/>
         <path d="M760.55606 959.402L512.00006 512 263.44406 959.402C337.10206 1000.488 421.83806 1024 512.00006 1024s174.898-23.512 248.556-64.598z" fill="#674447"/>
-      </svg>
-    ),
-  },
-  {
-    id: "forest3",
-    label: "Deep Forest",
-    svg: (
-      <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
-        <path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z" fill="#9AF4EF"/>
-        <path d="M45.334 722.568C125.646 900.272 304.316 1024 512 1024c282.77 0 512-229.23 512-512 0-5.344-0.24-10.628-0.402-15.932C706.984 497.52 563.412 720 45.334 720v2.568z" fill="#71BE63"/>
-        <path d="M1022.788 545.52c-225.026 1.104-547.624 312.458-862.516 337.964C251.992 970.426 375.63 1024 512 1024c271.496 0 493.506-211.352 510.788-478.48z" fill="#43AB5F"/>
-        <path d="M698.004 618.66a11.466 11.466 0 0 1-11.472-11.462v-123.46c0-6.33 5.132-11.462 11.472-11.462s11.47 5.132 11.47 11.462v123.46a11.464 11.464 0 0 1-11.47 11.462z" fill="#674447"/>
-        <path d="M770.246 473.222c0 39.9-32.346 72.246-72.246 72.246s-72.246-32.346-72.246-72.246S658.1 310.666 698 310.666s72.246 122.654 72.246 162.556z" fill="#43AB5F"/>
-        <path d="M845.008 554.036a10.104 10.104 0 0 1-10.108-10.102v-108.796a10.104 10.104 0 0 1 10.108-10.102 10.104 10.104 0 0 1 10.108 10.102v108.796a10.102 10.102 0 0 1-10.108 10.102z" fill="#674447"/>
-        <path d="M908.672 425.87c0 35.162-28.504 63.666-63.666 63.666-35.162 0-63.666-28.504-63.666-63.666s28.504-143.25 63.666-143.25c35.162 0.002 63.666 108.088 63.666 143.25z" fill="#43AB5F"/>
-        <path d="M527.756 496c-13.46 0-15.704-13.31-17.024-16-14.732-30-32.566-16-61.826-16-22.876 0-27.552-33.334-40.32-32-12.768 1.334-33.338 22.666-51.072 16-25.448-9.568-26.246-24-51.074-32-21.908-7.06-40.432-2-51.074-16-20.718-27.26-35.644 2.5-68.098-16-33.006-18.816-43.27 16-68.096 16-26.082 0-17.026-32-51.074-32-19.288 0-30.656 23.52-55.052 30.17C4.606 434.794 0 472.856 0 512c0 20.184 1.316 40.054 3.62 59.626 7.83 7.266 16.296 13.656 24.786 17.302C58.844 602 698 613.23 698 613.23V560c-46.818 0-46.818-32-85.122-32-51.606 0-46.818-32-85.122-32z" fill="#00A07D"/>
-      </svg>
-    ),
-  },
-  {
-    id: "desert2",
-    label: "Dunes",
-    svg: (
-      <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
-        <path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z" fill="#8DD9FF"/>
-        <path d="M512 0a513.746 513.746 0 0 0-107.392 11.374C410.292 65.672 456.196 108 512 108s101.708-42.328 107.392-96.626A513.746 513.746 0 0 0 512 0z" fill="#FFFFFF"/>
-        <path d="M512 0c-74.982 0-146.126 16.252-210.302 45.212 20.782 97.1 107 169.938 210.302 169.938s189.52-72.838 210.302-169.938C658.126 16.252 586.982 0 512 0z" fill="#FFFFF4"/>
-        <path d="M700.796 460.8c-39.694 0-150.838 90.582-224.952 103.63 51.412 71.052 124.132 115.45 204.824 115.45 81.774 0 155.382-45.568 206.9-118.298-42.61-20.172-141.65-100.782-186.772-100.782z" fill="#FFC868"/>
-        <path d="M548.536 720c-72.052 0-273.804 125.692-408.336 143.798C233.522 962.394 365.526 1024 512 1024c148.438 0 282.052-63.232 375.568-164.152C810.222 831.856 630.442 720 548.536 720z" fill="#ECAB4E"/>
-        <path d="M252.436 584c-40.856 0-132.524 59.984-221.706 103.048 27.162 74.66 71.28 141.118 127.582 194.954 20.916 3.912 42.324 6 64.14 6 121.816 0 231.468-63.232 308.212-164.152C467.192 695.856 319.654 584 252.436 584z" fill="#F9BE58"/>
-      </svg>
-    ),
-  },
-  {
-    id: "fall",
-    label: "Autumn",
-    svg: (
-      <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
-        <path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z" fill="#95C4F8"/>
-        <path d="M120.116 440H932v184H120.116z" fill="#DDF9FF"/>
-        <path d="M12.436 624C63.536 852.876 267.72 1024 512 1024s448.464-171.126 499.562-400H12.436z" fill="#B3F4EF"/>
-        <path d="M1024 512c0-49.034-7.038-96.398-19.906-141.296-38.148 6.07-65.548 22.454-90.708 45.296-36.348 33-75.29 192-145.386 192l-20.97 16 138.486 36 126.048-36c8.052-36.064 12.436-73.51 12.436-112z" fill="#86646A"/>
-        <path d="M461.334 440c-28 0-69.334-9.064-96-32.532C338.666 384 296 357.334 286.666 357.334c-9.334 0-36.334 21.334-56.834 26.666s-35.166 9.334-56.5 14.666C152 404 110.666 421.334 110.666 421.334s0.98 20.06 0 27.334c-0.98 7.272 118.666 20.666 175.334 14C342.666 456 461.334 440 461.334 440z" fill="#926E79"/>
-        <path d="M268.238 778.292c-5.036 0-9.8 1.03-14.28 2.646-11.63-14.398-29.208-23.792-49.158-23.792-14.39 0-27.506 4.972-38.15 13.046C151.228 749.548 126.82 736 99.07 736c-15.24 0-29.48 4.096-41.802 11.174a512.48 512.48 0 0 0 46.34 73.41h206.922c0-23.358-18.934-42.292-42.292-42.292z" fill="#43AB5F"/>
       </svg>
     ),
   },
@@ -309,6 +214,32 @@ const SVG_AVATARS = [
     ),
   },
   {
+    id: "mountain2",
+    label: "Mt. Peak",
+    svg: (
+      <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
+        <path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z" fill="#9DA6ED"/>
+        <path d="M512 500.398m-317.268 0a317.268 317.268 0 1 0 634.536 0 317.268 317.268 0 1 0-634.536 0Z" fill="#FFC8A9"/>
+        <path d="M512 500.398m-168.62 0a168.62 168.62 0 1 0 337.24 0 168.62 168.62 0 1 0-337.24 0Z" fill="#FFD7A8"/>
+        <path d="M1016.484 599.02c-10.938-17.65-56.006-87.02-88.706-87.02-41.208 0-96.78 112-133.204 112-29.138 0-65.56-64-83.252-64-16.65 0-88.456 96-116.552 96H361.666c-49.952 0-117.986-107.53-133.204-128-13.876-18.666-49.952-16-49.952-16S84.16 656 28.66 656h-7.984C82.902 868.636 279.248 1024 512 1024c253.088 0 463.146-183.684 504.484-424.98z" fill="#A17988"/>
+        <path d="M195.704 672c-21.202 0-72.796 64-118.734 64H51.686C134.768 906.478 309.592 1024 512 1024c215.102 0 399.052-132.718 474.824-320.686C955.854 696.56 942.02 640 925.074 640c-14.842 0-99.652 64-118.736 64-29.684 0-35.338-48-67.848-48s-31.804 80-67.848 80c-27.564 0-22.616-16-50.884-16-11.262 0-16.964 16-33.92 16h-101.78c-24.03 0-51.592-32-67.848-32-17.492 0-43.82 32-84.81 32-87.638 0-101.772-64-135.696-64z" fill="#86646A"/>
+        <path d="M512 500.398m-75.064 0a75.064 75.064 0 1 0 150.128 0 75.064 75.064 0 1 0-150.128 0Z" fill="#FFFFFF"/>
+      </svg>
+    ),
+  },
+  {
+    id: "fir",
+    label: "Fir Tree",
+    svg: (
+      <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
+        <path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z" fill="#9AF4EF"/>
+        <path d="M8.234 420.956C2.926 450.518 0 480.91 0 512s2.926 61.482 8.234 91.044c112.3 42.29 300.58 70.04 513.992 70.04 200.17 0 378.166-24.428 492.166-62.352C1020.638 578.776 1024 545.786 1024 512s-3.362-66.776-9.606-98.732c-114-37.924-291.996-62.354-492.166-62.354-213.414 0-401.692 27.752-513.994 70.042z" fill="#4CD3CB"/>
+        <path d="M617.028 847.402l52.514 0.002-70.02-105.03h52.514l-70.02-105.03h52.514l-70.02-105.03h52.514l-70.02-105.03h52.514L512 296l-87.524 131.286h52.514l-70.02 105.03h52.514l-70.02 105.03h52.514l-70.02 105.03h52.514l-70.02 105.03h52.514l-31.878 47.816C406.318 1015.648 458.178 1024 512 1024s105.682-8.352 154.412-23.75l-31.878-47.82h52.514l-70.02-105.028z" fill="#00A07D"/>
+        <path d="M324.342 778.422l-18.976 28.464c48.688 1.26 97.368 4.392 144.878 5.298 24.084 0.46 48.352 1.02 72.68 1.536l-23.534-35.3h52.514l-70.02-105.03H534.4l-70.02-105.03h52.514l-70.02-105.03h52.514l-87.524-131.286-87.524 131.286h52.514l-70.02 105.03h52.514l-70.02 105.03h52.514l-70.02 105.03 52.52 0.002z" fill="#00BDB3"/>
+      </svg>
+    ),
+  },
+  {
     id: "bridge",
     label: "Bridge",
     svg: (
@@ -321,24 +252,6 @@ const SVG_AVATARS = [
         <path d="M16.13 640h991.738c2.708-10.524 4.966-21.224 7.012-32H9.12c2.044 10.776 4.302 21.476 7.01 32z" fill="#6574A7"/>
         <path d="M992 632c-99.156 0-382.344-176.562-486.532-323.368a8.006 8.006 0 0 1 1.906-11.156 7.998 7.998 0 0 1 11.156 1.89C627.734 453.242 905 616 992 616c4.422 0 8 3.578 8 8s-3.578 8-8 8z" fill="#5A5A84"/>
         <path d="M32 632c-4.422 0-8-3.578-8-8s3.578-8 8-8c87 0 364.266-162.758 473.468-316.632a8.006 8.006 0 1 1 13.062 9.266C414.344 455.438 131.156 632 32 632z" fill="#5A5A84"/>
-      </svg>
-    ),
-  },
-  {
-    id: "nuclear",
-    label: "Industry",
-    svg: (
-      <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
-        <path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z" fill="#FFF9BB"/>
-        <path d="M25.64 672C92.844 876.382 285.126 1024 512 1024s419.156-147.618 486.36-352H25.64z" fill="#D8C34A"/>
-        <path d="M720 672s-48-168.422-48-320h-176c0 151.578-48 320-48 320" fill="#FFFCE5"/>
-        <path d="M496 672s-48-168.422-48-320h-176c0 151.578-48 320-48 320" fill="#FFFFFF"/>
-        <path d="M448 672h91.784C548.62 616.614 560 399.79 560 352h-64c0 151.58-48 320-48 320z" fill="#E9DCB3"/>
-        <path d="M224 672h91.784C324.62 616.614 336 399.79 336 352h-64c0 151.58-48 320-48 320z" fill="#E9DCB3"/>
-        <path d="M584 512c-13.234 0-24-10.766-24-24s10.766-24 24-24 24 10.766 24 24-10.766 24-24 24z" fill="#FF8562"/>
-        <path d="M360 512c-13.234 0-24-10.766-24-24s10.766-24 24-24 24 10.766 24 24-10.766 24-24 24z" fill="#FF8562"/>
-        <path d="M130.584 603h244V672h-244z" fill="#D6C8A9"/>
-        <path d="M524 603h244V672H524z" fill="#D6C8A9"/>
       </svg>
     ),
   },
@@ -361,23 +274,6 @@ const SVG_AVATARS = [
     ),
   },
   {
-    id: "home2",
-    label: "Cottage",
-    svg: (
-      <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
-        <path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z" fill="#9AF4EF"/>
-        <path d="M21.994 660.646C85.698 870.908 280.938 1024 512 1024s426.302-153.092 490.006-363.354H21.994z" fill="#94D75B"/>
-        <path d="M396.388 445.936l148.644-148.646L842.322 594.58v115.614H396.388z" fill="#DE7E68"/>
-        <path d="M495.484 710.194h-198.194v-132.13l99.098-49.548 99.096 49.548z" fill="#B66E6E"/>
-        <path d="M850.08 619.854L545.032 314.806l-156.402 156.404-17.518-17.516 173.92-173.92 322.564 322.564z" fill="#99645F"/>
-        <path d="M503.37 595.854l-106.982-53.492-106.984 53.492-11.066-22.16 118.05-59.024 118.048 59.024z" fill="#99645F"/>
-        <path d="M281.806 704.686a16.512 16.512 0 0 1-16.516-16.516V429.42c0-9.12 7.388-16.516 16.516-16.516s16.516 7.396 16.516 16.516v258.75a16.512 16.512 0 0 1-16.516 16.516z" fill="#674447"/>
-        <path d="M396.944 676.592c-6.386 0-12.424 1.258-18.208 3.082-18.326-26.344-48.724-43.664-83.246-43.664s-64.922 17.32-83.246 43.664c-5.784-1.824-11.822-3.082-18.208-3.082-33.62 0-60.872 27.254-60.872 60.872h324.654c-0.002-33.618-27.256-60.872-60.874-60.872z" fill="#71BE63"/>
-        <path d="M512 1024c184.272 0 345.522-97.534 435.68-243.612H76.32C166.478 926.466 327.728 1024 512 1024z" fill="#71BE63"/>
-      </svg>
-    ),
-  },
-  {
     id: "scenery2",
     label: "Sunrise",
     svg: (
@@ -391,23 +287,6 @@ const SVG_AVATARS = [
         <path d="M149.962 874.038a512.714 512.714 0 0 0 166.082 111.042L512 512 149.962 874.038z" fill="#FFC56E"/>
         <path d="M687.2 294.666m-167.77 0a167.77 167.77 0 1 0 335.54 0 167.77 167.77 0 1 0-335.54 0Z" fill="#FFFFF4"/>
         <path d="M512 673.936c216.278 0 404.918-33.328 505.898-82.828 4-25.786 6.102-52.2 6.102-79.108H0c0 26.908 2.102 53.322 6.102 79.108 100.98 49.5 289.62 82.828 505.898 82.828z" fill="#FFFFFF"/>
-      </svg>
-    ),
-  },
-  {
-    id: "mountain3",
-    label: "Alpine",
-    svg: (
-      <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
-        <path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z" fill="#BAFFEF"/>
-        <path d="M608.712 613.23m-350.388 0a350.388 350.388 0 1 0 700.776 0 350.388 350.388 0 1 0-700.776 0Z" fill="#FFFFF4"/>
-        <path d="M608.712 613.23m-101.23 0a101.23 101.23 0 1 0 202.46 0 101.23 101.23 0 1 0-202.46 0Z" fill="#FFFFFF"/>
-        <path d="M1.188 478.784C0.484 489.776 0 500.83 0 512c0 74.42 16.01 145.06 44.562 208.862 138.072 15.456 324.892 13.36 368.342 8.982 51.612-5.2 192-27.91 214.71-38.232 22.71-10.322 10.094-80.516 10.094-80.516-195.9 0-292.758-191.522-636.52-132.312z" fill="#53DC92"/>
-        <path d="M1022.824 545.046c-331.828 0.316-457.566 132.114-725.534 132.114v111.484l457.822 174.04c150.974-81.61 256.186-236.882 267.712-417.638z" fill="#52C883"/>
-        <path d="M14.344 632.268C68.464 856.984 270.67 1024 512 1024c18.9 0 37.538-1.1 55.908-3.096 26.096-71.562 61.77-211.614 61.77-211.614-132.13 0-275.612-181.678-613.162-181.678l-2.172 4.656z" fill="#34BE69"/>
-        <path d="M512 1024c212.496 0 394.73-129.464 472.198-313.806h-9.746c-292.354 0-498.484 229.902-741.224 231.168C313.458 993.56 409.148 1024 512 1024z" fill="#43AB5F"/>
-        <path d="M879.772 477.062c0 30.322-24.582 54.904-54.904 54.904-30.322 0-54.904-24.582-54.904-54.904 0-30.322 24.582-123.536 54.904-123.536 30.322 0 54.904 93.212 54.904 123.536z" fill="#52C883"/>
-        <path d="M605.236 358.08c-5.752 0-11.188 1.132-16.398 2.776-16.504-23.724-43.882-39.324-74.972-39.324s-58.468 15.598-74.972 39.324c-5.21-1.642-10.646-2.776-16.398-2.776-30.278 0-54.822 24.544-54.822 54.822H660.06c-0.002-30.276-24.548-54.822-54.824-54.822z" fill="#FFFFFF"/>
       </svg>
     ),
   },
@@ -433,12 +312,11 @@ export default function Profile() {
   const favorites      = useStore((s) => s.favorites);
   const updateUsername = useStore((s) => s.updateUsername);
 
-  // ── Avatar persisted per-user in localStorage ───────────────
   const avatarKey = user?.uid ? `trek_avatar_${user.uid}` : null;
   const _saved = (() => { try { return avatarKey ? JSON.parse(localStorage.getItem(avatarKey)) || {} : {}; } catch { return {}; } })();
 
-  const [svgAvatarId,  setSvgAvatarId]  = useState(_saved.svgId  ?? null);
-  const [photoAvatar,  setPhotoAvatar]  = useState(_saved.photo  ?? null);
+  const [svgAvatarId,  setSvgAvatarId]  = useState(_saved.svgId ?? null);
+  const [photoAvatar,  setPhotoAvatar]  = useState(_saved.photo ?? null);
   const [pickerOpen,   setPickerOpen]   = useState(false);
   const [isEditing,    setIsEditing]    = useState(false);
   const [tempUsername, setTempUsername] = useState(username);
@@ -448,13 +326,11 @@ export default function Profile() {
   const fileRef  = useRef();
   const navigate = useNavigate();
 
-  // ── Save avatar to localStorage on every change ──────────────
   useEffect(() => {
     if (!avatarKey) return;
     try { localStorage.setItem(avatarKey, JSON.stringify({ svgId: svgAvatarId, photo: photoAvatar })); } catch {}
   }, [svgAvatarId, photoAvatar, avatarKey]);
 
-  // ── Derived values ──────────────────────────────────────────
   const initials = username
     ? username.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2)
     : user?.email?.charAt(0).toUpperCase() || "TU";
@@ -465,22 +341,16 @@ export default function Profile() {
 
   const selectedSvg = SVG_AVATARS.find((a) => a.id === svgAvatarId);
 
-  // ── Handlers ────────────────────────────────────────────────
   const handlePhotoUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onloadend = () => {
-      setPhotoAvatar(reader.result);
-      setSvgAvatarId(null);
-    };
+    reader.onloadend = () => { setPhotoAvatar(reader.result); setSvgAvatarId(null); };
     reader.readAsDataURL(file);
   };
 
   const handleSelectSvgAvatar = (id) => {
-    setSvgAvatarId(id);
-    setPhotoAvatar(null);
-    setPickerOpen(false);
+    setSvgAvatarId(id); setPhotoAvatar(null); setPickerOpen(false);
   };
 
   const handleLogout = async () => {
@@ -493,89 +363,278 @@ export default function Profile() {
   const handleEditSave = async () => {
     if (isEditing) {
       const trimmed = tempUsername.trim();
-      if (trimmed && trimmed !== username) {
-        setSaving(true);
-        await updateUsername(trimmed);
-        setSaving(false);
-      }
+      if (trimmed && trimmed !== username) { setSaving(true); await updateUsername(trimmed); setSaving(false); }
       setIsEditing(false);
-    } else {
-      setTempUsername(username);
-      setIsEditing(true);
-    }
+    } else { setTempUsername(username); setIsEditing(true); }
   };
 
-  const handleCancelEdit = () => {
-    setTempUsername(username);
-    setIsEditing(false);
+  const handleCancelEdit = () => { setTempUsername(username); setIsEditing(false); };
+
+  // Avatar picker modal rendered via portal
+  const AvatarModal = () => {
+    if (!pickerOpen) return null;
+    return ReactDOM.createPortal(
+      <div className="avatar-modal-overlay" onClick={() => setPickerOpen(false)}>
+        <div className="avatar-modal-container" onClick={(e) => e.stopPropagation()}>
+          <div className="avatar-modal-header">
+            <span className="avatar-modal-title">Choose your avatar</span>
+            <button className="avatar-modal-close" onClick={() => setPickerOpen(false)}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+          </div>
+          <div className="avatar-modal-grid">
+            {SVG_AVATARS.map((av) => (
+              <button
+                key={av.id}
+                className={`avatar-modal-option${svgAvatarId === av.id ? " selected" : ""}`}
+                onClick={() => handleSelectSvgAvatar(av.id)}
+              >
+                <div className="avatar-modal-ring">{av.svg}</div>
+                <span className="avatar-modal-label">{av.label}</span>
+              </button>
+            ))}
+          </div>
+          <div className="avatar-modal-divider" />
+          <button className="avatar-modal-upload" onClick={() => { setPickerOpen(false); setTimeout(() => fileRef.current?.click(), 50); }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+              <circle cx="12" cy="13" r="4"/>
+            </svg>
+            Upload photo instead
+          </button>
+        </div>
+      </div>,
+      document.body
+    );
   };
 
   return (
     <div style={S.page} className="profile-page">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
-
+        /* Fix body padding for fixed header */
+        body {
+          padding-top: 72px;
+          margin: 0;
+        }
+        
+        @media (max-width: 768px) {
+          body {
+            padding-top: 64px;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          body {
+            padding-top: 58px;
+          }
+        }
+        
+        /* Desktop layout (≥ 900px) */
+        .profile-container {
+          max-width: 1100px !important;
+          display: grid !important;
+          grid-template-columns: min(320px, 100%) 1fr !important;
+          gap: 28px !important;
+          align-items: start !important;
+          margin: 0 auto !important;
+          padding: 0 32px !important;
+        }
+        .profile-card-sticky { position: sticky !important; top: 20px !important; width: 100% !important; }
+        
+        /* Mobile layout (≤ 900px) */
         @media (max-width: 900px) {
-          .profile-page { padding: 24px 16px 60px !important; }
-          .profile-container { grid-template-columns: 1fr !important; max-width: 560px !important; margin: 0 auto !important; padding: 0 !important; gap: 18px !important; }
+          .profile-container {
+            grid-template-columns: 1fr !important;
+            gap: 20px !important;
+            padding: 0 16px !important;
+          }
           .profile-card-sticky { position: static !important; }
           .profile-stats-row { grid-template-columns: repeat(3, 1fr) !important; gap: 12px !important; }
         }
-        @media (max-width: 380px) { .profile-stats-row { grid-template-columns: 1fr 1fr !important; } }
-
-        /* Avatar picker */
-        .avatar-picker { animation: pickerFadeIn 0.2s ease; }
-        @keyframes pickerFadeIn { from { opacity:0; transform:translateY(8px) scale(0.97); } to { opacity:1; transform:translateY(0) scale(1); } }
-
-        .svg-avatar-btn {
-          background: rgba(255,255,255,0.06);
-          border: 2px solid transparent;
-          border-radius: 50%;
-          cursor: pointer;
-          padding: 4px;
-          transition: border-color 0.15s, transform 0.15s, background 0.15s;
-          display: flex; flex-direction: column; align-items: center; gap: 5px;
+        @media (max-width: 380px) { 
+          .profile-stats-row { grid-template-columns: 1fr 1fr !important; } 
         }
-        .svg-avatar-btn:hover { border-color: rgba(255,255,255,0.35); transform: scale(1.08); background: rgba(255,255,255,0.1); }
-        .svg-avatar-btn.selected { border-color: #4ade80; background: rgba(74,222,128,0.12); }
 
-        .svg-avatar-ring { width: 48px; height: 48px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-
+        /* Avatar modal styles */
+        .avatar-modal-overlay {
+          position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+          background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+          z-index: 10000; display: flex; align-items: center; justify-content: center;
+          padding: 20px; animation: fadeIn 0.2s ease;
+        }
+        .avatar-modal-container {
+          background: linear-gradient(145deg, #0f172a, #1a2640);
+          border-radius: 24px; width: 90%; max-width: 520px;
+          max-height: 85vh; overflow-y: auto; padding: 24px 20px;
+          border: 1px solid rgba(255,255,255,0.15);
+          box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+          animation: slideUp 0.2s ease;
+        }
+        .avatar-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .avatar-modal-title { font-size: 1.1rem; font-weight: 700; color: #fff; }
+        .avatar-modal-close {
+          background: rgba(255,255,255,0.08); border: none; border-radius: 12px;
+          width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+          cursor: pointer; color: rgba(255,255,255,0.6); transition: all 0.2s;
+        }
+        .avatar-modal-close:hover { background: rgba(255,255,255,0.15); color: #fff; transform: scale(1.05); }
+        .avatar-modal-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 8px; }
+        .avatar-modal-option {
+          background: transparent; border: 2px solid transparent; border-radius: 50%;
+          padding: 8px; cursor: pointer; transition: all 0.2s;
+          display: flex; flex-direction: column; align-items: center; gap: 6px;
+        }
+        .avatar-modal-option:hover { transform: scale(1.05); background: rgba(255,255,255,0.08); }
+        .avatar-modal-option.selected { border-color: #84cc16; background: rgba(132,204,22,0.12); }
+        .avatar-modal-ring {
+          width: 60px; height: 60px; border-radius: 50%; overflow: hidden;
+          background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center;
+        }
+        .avatar-modal-ring svg { width: 100%; height: 100%; }
+        .avatar-modal-label { font-size: 0.62rem; font-weight: 600; color: rgba(255,255,255,0.7); text-align: center; }
+        .avatar-modal-divider { height: 1px; background: rgba(255,255,255,0.1); margin: 16px 0; }
+        .avatar-modal-upload {
+          width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15);
+          border-radius: 12px; padding: 12px; display: flex; align-items: center; justify-content: center;
+          gap: 8px; color: rgba(255,255,255,0.8); font-size: 0.85rem; font-weight: 600;
+          cursor: pointer; transition: all 0.2s;
+        }
+        .avatar-modal-upload:hover { background: rgba(255,255,255,0.1); border-color: #84cc16; color: #84cc16; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @media (max-width: 520px) {
+          .avatar-modal-container { padding: 20px 16px; max-width: 95%; }
+          .avatar-modal-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+          .avatar-modal-ring { width: 50px; height: 50px; }
+          .avatar-modal-label { font-size: 0.55rem; }
+        }
+        
+        /* Stat Card Normalization */
+        .profile-stats-row {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 16px;
+          width: 100%;
+        }
+        
+        .stat-card-hover {
+          background: rgba(15, 23, 42, 0.75);
+          backdrop-filter: blur(8px);
+          border-radius: 16px;
+          padding: 20px 12px;
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+          transition: all 0.2s ease;
+          min-width: 0;
+          width: 100%;
+          box-sizing: border-box;
+          min-height: 130px;
+          justify-content: center;
+        }
+        
+        .stat-card-hover:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        
+        .stat-icon {
+          width: 48px;
+          height: 48px;
+          border-radius: 14px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          margin-bottom: 4px;
+        }
+        
+        .stat-icon svg {
+          width: 24px;
+          height: 24px;
+        }
+        
+        .stat-num {
+          font-size: 1.6rem;
+          font-weight: 800;
+          color: #f0f9ff;
+          line-height: 1.2;
+          letter-spacing: -0.5px;
+          margin: 0;
+        }
+        
+        .stat-label {
+          font-size: 0.7rem;
+          font-weight: 600;
+          color: rgba(255, 255, 255, 0.6);
+          text-transform: uppercase;
+          letter-spacing: 0.8px;
+          margin: 0;
+        }
+        
+        /* Responsive stat cards */
+        @media (max-width: 768px) {
+          .stat-icon {
+            width: 40px;
+            height: 40px;
+          }
+          .stat-icon svg {
+            width: 20px;
+            height: 20px;
+          }
+          .stat-num {
+            font-size: 1.3rem;
+          }
+          .stat-label {
+            font-size: 0.6rem;
+          }
+          .stat-card-hover {
+            padding: 14px 8px;
+            min-height: 110px;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .profile-stats-row {
+            gap: 10px;
+          }
+          .stat-num {
+            font-size: 1.1rem;
+          }
+          .stat-label {
+            font-size: 0.55rem;
+            letter-spacing: 0.5px;
+          }
+          .stat-card-hover {
+            padding: 12px 6px;
+            min-height: 100px;
+          }
+        }
+        
         .quick-link-hover:hover { background: rgba(255,255,255,0.07) !important; }
-        .stat-card-hover:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
-        .stat-card-hover { transition: transform 0.2s, box-shadow 0.2s; }
-
-        .upload-row { display: flex; align-items: center; gap: 8px; margin-top: 10px; width: 100%; justify-content: center; }
-        .upload-btn {
-          display: inline-flex; align-items: center; gap: 6px;
-          padding: 6px 14px; border-radius: 8px;
-          background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
-          color: rgba(255,255,255,0.6); font-size: 0.72rem; font-weight: 600;
-          cursor: pointer; transition: background 0.15s, color 0.15s;
-          font-family: 'Inter', sans-serif;
-        }
-        .upload-btn:hover { background: rgba(255,255,255,0.13); color: rgba(255,255,255,0.9); }
       `}</style>
 
-      {/* Background blobs */}
       <div style={S.blob1}/>
       <div style={S.blob2}/>
 
       <div style={S.container} className="profile-container">
 
-        {/* ══════════ LEFT — Profile Card ══════════ */}
+        {/* LEFT — Profile Card */}
         <div style={S.profileCard} className="profile-card-sticky">
 
-          {/* ── Avatar area ── */}
+          {/* Avatar */}
           <div style={{ position: "relative", display: "inline-block" }}>
             <div
               style={S.avatarWrapper}
               onMouseEnter={() => setAvatarHover(true)}
               onMouseLeave={() => setAvatarHover(false)}
-              onClick={() => setPickerOpen((v) => !v)}
+              onClick={() => setPickerOpen(true)}
               title="Choose avatar"
             >
-              {/* Avatar display */}
               {photoAvatar ? (
                 <img src={photoAvatar} alt="avatar" style={S.avatarImg}/>
               ) : selectedSvg ? (
@@ -585,54 +644,14 @@ export default function Profile() {
                   <span style={S.avatarInitials}>{initials}</span>
                 </div>
               )}
-
-              {/* Hover overlay */}
               <div style={{ ...S.avatarOverlay, opacity: avatarHover ? 1 : 0 }}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.2">
+                  <circle cx="12" cy="12" r="3"/>
+                  <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
                 </svg>
                 <span style={S.avatarOverlayText}>Choose</span>
               </div>
             </div>
-
-            {/* ── SVG Picker Panel ── */}
-            {pickerOpen && (
-              <div style={S.picker} className="avatar-picker">
-                <div style={S.pickerHeader}>
-                  <span style={S.pickerTitle}>Choose your avatar</span>
-                  <button style={S.pickerClose} onClick={() => setPickerOpen(false)}>
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="2.5" strokeLinecap="round">
-                      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-                    </svg>
-                  </button>
-                </div>
-
-                <div style={S.pickerGrid}>
-                  {SVG_AVATARS.map((av) => (
-                    <button
-                      key={av.id}
-                      className={`svg-avatar-btn${svgAvatarId === av.id ? " selected" : ""}`}
-                      onClick={() => handleSelectSvgAvatar(av.id)}
-                      title={av.label}
-                    >
-                      <div className="svg-avatar-ring">{av.svg}</div>
-                      <span style={S.pickerLabel}>{av.label}</span>
-                    </button>
-                  ))}
-                </div>
-
-                {/* Upload photo option */}
-                <div style={S.pickerDivider}/>
-                <button className="upload-btn" onClick={() => { setPickerOpen(false); fileRef.current.click(); }}>
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-                    <circle cx="12" cy="13" r="4"/>
-                  </svg>
-                  Upload photo instead
-                </button>
-                <input ref={fileRef} type="file" accept="image/*" style={{ display: "none" }} onChange={handlePhotoUpload}/>
-              </div>
-            )}
           </div>
 
           {/* Name + edit */}
@@ -643,18 +662,16 @@ export default function Profile() {
               <h2 style={S.name}>{username || "Trek User"}</h2>
             )}
             <div style={S.editActions}>
-              <button style={S.editBtn} onClick={handleEditSave} disabled={saving} title={isEditing ? "Save" : "Edit username"}>
-                {saving ? (
-                  <span style={{ fontSize: "0.68rem", color: "#4ade80", fontWeight: 700 }}>Saving…</span>
-                ) : isEditing ? (
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                ) : (
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                )}
+              <button style={S.editBtn} onClick={handleEditSave} disabled={saving}>
+                {saving ? <span style={{ fontSize: "0.68rem", color: "#4ade80", fontWeight: 700 }}>Saving…</span>
+                  : isEditing
+                    ? <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    : <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                }
               </button>
               {isEditing && (
-                <button style={{ ...S.editBtn, background: "rgba(225,29,72,0.15)" }} onClick={handleCancelEdit} title="Cancel">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                <button style={{ ...S.editBtn, background: "rgba(225,29,72,0.15)" }} onClick={handleCancelEdit}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </button>
               )}
             </div>
@@ -663,7 +680,7 @@ export default function Profile() {
           {username !== user?.email && <p style={S.email}>{user?.email}</p>}
 
           <div style={S.badge}>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="#fbbf24" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="#fbbf24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
             Explorer
           </div>
 
@@ -680,49 +697,52 @@ export default function Profile() {
 
           <div style={S.quickLinks}>
             <Link to="/favorites" style={S.quickLink} className="quick-link-hover">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="#f87171" stroke="#f87171" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="#f87171" stroke="#f87171" strokeWidth="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
               My Favorites
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: "auto" }}><polyline points="9 18 15 12 9 6"/></svg>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2" style={{ marginLeft: "auto" }}><polyline points="9 18 15 12 9 6"/></svg>
             </Link>
             <Link to="/dashboard" style={S.quickLink} className="quick-link-hover">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
               Plan a Trek
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: "auto" }}><polyline points="9 18 15 12 9 6"/></svg>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2" style={{ marginLeft: "auto" }}><polyline points="9 18 15 12 9 6"/></svg>
             </Link>
           </div>
 
           <div style={S.divider}/>
 
-          <button style={S.logoutBtn} onClick={handleLogout} onMouseEnter={(e) => e.currentTarget.style.background = "rgba(239,68,68,0.2)"} onMouseLeave={(e) => e.currentTarget.style.background = "rgba(239,68,68,0.1)"}>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <button style={S.logoutBtn} onClick={handleLogout}
+            onMouseEnter={(e) => e.currentTarget.style.background = "rgba(239,68,68,0.2)"}
+            onMouseLeave={(e) => e.currentTarget.style.background = "rgba(239,68,68,0.1)"}
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
             Sign Out
           </button>
         </div>
 
-        {/* ══════════ RIGHT — Stats & Info ══════════ */}
+        {/* RIGHT — Stats & Info */}
         <div style={S.rightCol}>
 
           <div style={S.statsRow} className="profile-stats-row">
             <div style={{ ...S.statCard, borderColor: "rgba(96,165,250,0.3)" }} className="stat-card-hover">
-              <div style={{ ...S.statIcon, background: "rgba(96,165,250,0.12)" }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              <div style={{ ...S.statIcon, background: "rgba(96,165,250,0.12)" }} className="stat-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
               </div>
-              <div style={S.statNum}>{favorites.length}</div>
-              <div style={S.statLabel}>Saved Places</div>
+              <div className="stat-num">{favorites.length}</div>
+              <div className="stat-label">Saved Places</div>
             </div>
             <div style={{ ...S.statCard, borderColor: "rgba(74,222,128,0.3)" }} className="stat-card-hover">
-              <div style={{ ...S.statIcon, background: "rgba(74,222,128,0.12)" }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+              <div style={{ ...S.statIcon, background: "rgba(74,222,128,0.12)" }} className="stat-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
               </div>
-              <div style={S.statNum}>∞</div>
-              <div style={S.statLabel}>Routes Available</div>
+              <div className="stat-num">∞</div>
+              <div className="stat-label">Routes</div>
             </div>
             <div style={{ ...S.statCard, borderColor: "rgba(251,191,36,0.3)" }} className="stat-card-hover">
-              <div style={{ ...S.statIcon, background: "rgba(251,191,36,0.12)" }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              <div style={{ ...S.statIcon, background: "rgba(251,191,36,0.12)" }} className="stat-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
               </div>
-              <div style={S.statNum}>195</div>
-              <div style={S.statLabel}>Countries</div>
+              <div className="stat-num">195</div>
+              <div className="stat-label">Countries</div>
             </div>
           </div>
 
@@ -746,7 +766,6 @@ export default function Profile() {
                   <Link to="/favorites" key={fav.id || i} style={S.favItem}>
                     <div style={S.favDot}/>
                     <span style={S.favName}>{fav.name}</span>
-                    <span style={S.favCoord}>{Number(fav.lat).toFixed(2)}, {Number(fav.lng).toFixed(2)}</span>
                   </Link>
                 ))}
                 {favorites.length > 5 && (
@@ -758,61 +777,69 @@ export default function Profile() {
             )}
           </div>
 
-          {/* Account card */}
+          {/* Account details */}
           <div style={S.accountCard}>
             <div style={S.accountTitle}>Account Details</div>
             <div style={S.accountRow}><span style={S.accountLabel}>Email</span><span style={S.accountValue}>{user?.email}</span></div>
-            <div style={S.accountRow}><span style={S.accountLabel}>User ID</span><span style={{ ...S.accountValue, fontFamily: "'DM Mono', monospace", fontSize: "0.7rem" }}>{user?.uid?.slice(0, 16)}…</span></div>
+            <div style={S.accountRow}><span style={S.accountLabel}>User ID</span><span style={{ ...S.accountValue, fontFamily: "monospace", fontSize: "0.7rem" }}>{user?.uid?.slice(0, 14)}…</span></div>
             <div style={S.accountRow}><span style={S.accountLabel}>Member Since</span><span style={S.accountValue}>{joinDate}</span></div>
             <div style={S.accountRow}><span style={S.accountLabel}>Plan</span><span style={{ ...S.accountValue, color: "#4ade80" }}>Free Explorer</span></div>
           </div>
         </div>
       </div>
+
+      {/* Hidden file input */}
+      <input ref={fileRef} type="file" accept="image/*" style={{ display: "none" }} onChange={handlePhotoUpload}/>
+
+      {/* Avatar picker modal */}
+      <AvatarModal />
     </div>
   );
 }
+
 const S = {
   page: {
-    minHeight: "100vh",
+    minHeight:  "100vh",
     background: "linear-gradient(170deg, #0a1628 0%, #0f1e30 40%, #0d1b2a 100%)",
-    fontFamily: "'DM Sans', 'Inter', system-ui, sans-serif",
-    position: "relative",
-    overflow: "hidden",
-    padding: "40px 32px 80px",
-    color: "rgba(255, 255, 255, 0.85)",
+    fontFamily: "'Inter', system-ui, sans-serif",
+    position:   "relative",
+    overflowX:  "hidden",
+    padding:    "40px 0 80px",
+    color:      "rgba(255,255,255,0.85)",
   },
   blob1: {
-    position: "fixed", top: -100, right: -100,
-    width: 400, height: 400, borderRadius: "50%",
-    background: "radial-gradient(circle, rgba(132,204,22,0.08) 0%, transparent 70%)",
+    position: "fixed", top: -100, right: -100, width: 400, height: 400,
+    borderRadius: "50%", background: "radial-gradient(circle, rgba(132,204,22,0.08) 0%, transparent 70%)",
     pointerEvents: "none",
   },
   blob2: {
-    position: "fixed", bottom: -80, left: -80,
-    width: 350, height: 350, borderRadius: "50%",
-    background: "radial-gradient(circle, rgba(37,99,235,0.08) 0%, transparent 70%)",
+    position: "fixed", bottom: -80, left: -80, width: 350, height: 350,
+    borderRadius: "50%", background: "radial-gradient(circle, rgba(37,99,235,0.08) 0%, transparent 70%)",
     pointerEvents: "none",
   },
   container: {
-    maxWidth: 1100, margin: "0 auto",
-    display: "grid", gridTemplateColumns: "min(320px, 100%) 1fr",
-    gap: 28, alignItems: "start", padding: "0 32px",
+    maxWidth:  1100,
+    width:     "100%",
+    margin:    "0 auto",
+    display:   "grid",
+    gap:       28,
+    alignItems:"start",
+    boxSizing: "border-box",
   },
   profileCard: {
-    background: "rgba(10, 22, 40, 0.7)",
-    backdropFilter: "blur(12px)",
-    borderRadius: 24,
-    padding: "36px 28px",
-    border: "1px solid rgba(255,255,255,0.08)",
-    boxShadow: "0 20px 60px rgba(0,0,0,0.25)",
-    textAlign: "center",
-    position: "sticky",
-    top: 20,
+    background:    "rgba(10,22,40,0.7)",
+    backdropFilter:"blur(12px)",
+    borderRadius:  24,
+    padding:       "36px 28px",
+    border:        "1px solid rgba(255,255,255,0.08)",
+    boxShadow:     "0 20px 60px rgba(0,0,0,0.25)",
+    textAlign:     "center",
+    width:         "100%",
+    boxSizing:     "border-box",
   },
   avatarWrapper: {
     position: "relative", width: 96, height: 96, borderRadius: "50%",
-    margin: "0 auto", cursor: "pointer",
-    border: "3px solid rgba(255,255,255,0.1)",
+    margin: "0 auto", cursor: "pointer", border: "3px solid rgba(255,255,255,0.1)",
   },
   avatarImg: { width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%" },
   avatarSvgWrap: {
@@ -831,36 +858,11 @@ const S = {
     alignItems: "center", justifyContent: "center", borderRadius: "50%", gap: 4,
     transition: "opacity 0.2s",
   },
-  avatarOverlayText: { color: "#fff", fontSize: "0.65rem", fontWeight: 700, letterSpacing: "0.5px" },
-  picker: {
-    position: "absolute", top: "calc(100% + 12px)", left: "50%", transform: "translateX(-50%)",
-    background: "linear-gradient(145deg, #0f172a, #1a2640)",
-    border: "1px solid rgba(255,255,255,0.1)",
-    borderRadius: 20, padding: "18px 16px 16px",
-    boxShadow: "0 24px 60px rgba(0,0,0,0.5)",
-    zIndex: 100, width: 340,
-  },
-  pickerHeader: {
-    display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14,
-  },
-  pickerTitle: {
-    fontSize: "0.78rem", fontWeight: 700,
-    color: "rgba(255,255,255,0.7)", letterSpacing: "0.4px", textTransform: "uppercase",
-  },
-  pickerClose: {
-    background: "rgba(255,255,255,0.07)", border: "none", borderRadius: 6,
-    padding: "4px 6px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-  },
-  pickerGrid: { display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8 },
-  pickerLabel: {
-    fontSize: "0.6rem", fontWeight: 700, color: "rgba(255,255,255,0.45)",
-    letterSpacing: "0.3px", textTransform: "uppercase",
-  },
-  pickerDivider: { height: 1, background: "rgba(255,255,255,0.07)", margin: "14px 0 12px" },
+  avatarOverlayText: { color: "#fff", fontSize: "0.65rem", fontWeight: 700 },
   nameRow: { display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 6 },
   name: {
     fontSize: "1.35rem", fontWeight: 800, color: "#f0f9ff", margin: 0,
-    letterSpacing: "-0.3px", maxWidth: 220, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
+    maxWidth: 200, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
   },
   nameInput: {
     fontSize: "1.1rem", fontWeight: 800, color: "#f0f9ff",
@@ -871,7 +873,6 @@ const S = {
   editBtn: {
     background: "rgba(255,255,255,0.08)", border: "none", borderRadius: 6,
     padding: "5px 7px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-    transition: "background 0.15s",
   },
   email: { fontSize: "0.78rem", color: "rgba(255,255,255,0.4)", margin: "0 0 14px", wordBreak: "break-all" },
   badge: {
@@ -886,17 +887,14 @@ const S = {
     display: "flex", flexDirection: "column", gap: 3, textAlign: "left",
     background: "rgba(255,255,255,0.04)", borderRadius: 10, padding: "10px 12px",
   },
-  infoLabel: {
-    fontSize: "0.65rem", fontWeight: 700, color: "rgba(255,255,255,0.3)",
-    textTransform: "uppercase", letterSpacing: "1px",
-  },
+  infoLabel: { fontSize: "0.65rem", fontWeight: 700, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "1px" },
   infoValue: { fontSize: "0.88rem", fontWeight: 700, color: "#f0f9ff" },
   quickLinks: { display: "flex", flexDirection: "column", gap: 6 },
   quickLink: {
     display: "flex", alignItems: "center", gap: 10, padding: "11px 14px",
     background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)",
     borderRadius: 12, color: "rgba(255,255,255,0.75)", textDecoration: "none",
-    fontSize: "0.85rem", fontWeight: 600, transition: "background 0.15s",
+    fontSize: "0.85rem", fontWeight: 600,
   },
   logoutBtn: {
     width: "100%", padding: "11px", background: "rgba(239,68,68,0.1)",
@@ -905,37 +903,41 @@ const S = {
     display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
     transition: "background 0.2s",
   },
-  rightCol: { display: "flex", flexDirection: "column", gap: 20 },
-  statsRow: { display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10, minWidth: 0 },
+  rightCol: {
+    display: "flex", flexDirection: "column", gap: 20,
+    minWidth: 0, overflow: "hidden", width: "100%",
+  },
+  statsRow: {
+    display: "grid", gridTemplateColumns: "repeat(3, 1fr)",
+    gap: 12, minWidth: 0, width: "100%", overflow: "hidden",
+  },
   statCard: {
-    background: "rgba(15, 23, 42, 0.75)", backdropFilter: "blur(8px)",
-    borderRadius: 14, padding: "14px 8px", border: "1.5px solid rgba(255,255,255,0.08)",
-    textAlign: "center", boxShadow: "0 2px 12px rgba(0,0,0,0.1)",
-    display: "flex", flexDirection: "column", alignItems: "center", gap: 6,
-    minWidth: 0, overflow: "hidden",
+    background: "rgba(15,23,42,0.75)", backdropFilter: "blur(8px)",
+    borderRadius: 14, padding: "14px 8px", border: "1.5px solid",
+    textAlign: "center", display: "flex", flexDirection: "column",
+    alignItems: "center", gap: 6, minWidth: 0, overflow: "hidden",
+    width: "100%", boxSizing: "border-box",
   },
   statIcon: {
-    width: 44, height: 44, borderRadius: 14,
+    width: 44, height: 44, borderRadius: 12,
     display: "flex", alignItems: "center", justifyContent: "center",
   },
-  statNum: { fontSize: "1.5rem", fontWeight: 800, color: "#f0f9ff", letterSpacing: "-0.5px", lineHeight: 1 },
+  statNum: { fontSize: "1.4rem", fontWeight: 800, color: "#f0f9ff", lineHeight: 1 },
   statLabel: {
     fontSize: "0.58rem", fontWeight: 600, color: "rgba(255,255,255,0.6)",
-    textTransform: "uppercase", letterSpacing: "0.3px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", maxWidth: "100%",
+    textTransform: "uppercase", letterSpacing: "0.5px",
+    whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", maxWidth: "100%",
   },
   favCard: {
-    background: "rgba(15, 23, 42, 0.75)", backdropFilter: "blur(8px)",
+    background: "rgba(15,23,42,0.75)", backdropFilter: "blur(8px)",
     borderRadius: 20, border: "1px solid rgba(255,255,255,0.08)",
-    boxShadow: "0 2px 12px rgba(0,0,0,0.1)", overflow: "hidden",
+    overflow: "hidden", minWidth: 0, width: "100%",
   },
   favHeader: {
     display: "flex", alignItems: "center", justifyContent: "space-between",
     padding: "18px 20px 14px", borderBottom: "1px solid rgba(255,255,255,0.08)",
   },
-  favTitle: {
-    display: "flex", alignItems: "center", gap: 8,
-    fontSize: "0.95rem", fontWeight: 700, color: "#f0f9ff",
-  },
+  favTitle: { display: "flex", alignItems: "center", gap: 8, fontSize: "0.95rem", fontWeight: 700, color: "#f0f9ff" },
   favSeeAll: { fontSize: "0.78rem", fontWeight: 600, color: "#60a5fa", textDecoration: "none" },
   favEmpty: { padding: "32px 20px", textAlign: "center" },
   favEmptyText: { fontSize: "0.85rem", color: "rgba(255,255,255,0.5)", lineHeight: 1.6, margin: "0 0 14px" },
@@ -948,30 +950,27 @@ const S = {
   favItem: {
     display: "flex", alignItems: "center", gap: 12, padding: "11px 20px",
     textDecoration: "none", borderBottom: "1px solid rgba(255,255,255,0.05)",
-    transition: "background 0.15s", cursor: "pointer",
+    cursor: "pointer", minWidth: 0,
   },
   favDot: { width: 8, height: 8, borderRadius: "50%", background: "#f87171", flexShrink: 0 },
   favName: {
     fontSize: "0.85rem", fontWeight: 600, color: "#f0f9ff",
     flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
   },
-  favCoord: {
-    fontSize: "0.7rem", color: "rgba(255,255,255,0.5)", fontFamily: "'DM Mono', monospace",
-    flexShrink: 0,
-  },
   accountCard: {
-    background: "rgba(15, 23, 42, 0.75)", backdropFilter: "blur(8px)",
+    background: "rgba(15,23,42,0.75)", backdropFilter: "blur(8px)",
     borderRadius: 16, border: "1px solid rgba(255,255,255,0.08)",
-    boxShadow: "0 2px 12px rgba(0,0,0,0.1)", padding: "16px", overflow: "hidden",
+    padding: "16px", overflow: "hidden", minWidth: 0, width: "100%",
   },
   accountTitle: { fontSize: "0.95rem", fontWeight: 700, color: "#f0f9ff", marginBottom: 14 },
   accountRow: {
     display: "flex", justifyContent: "space-between", alignItems: "center",
     padding: "9px 0", borderBottom: "1px solid rgba(255,255,255,0.05)",
+    gap: 8, minWidth: 0,
   },
-  accountLabel: { fontSize: "0.8rem", color: "rgba(255,255,255,0.5)", fontWeight: 600 },
+  accountLabel: { fontSize: "0.8rem", color: "rgba(255,255,255,0.5)", fontWeight: 600, flexShrink: 0 },
   accountValue: {
     fontSize: "0.78rem", color: "#f0f9ff", fontWeight: 600,
-    maxWidth: "55%", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", textAlign: "right",
+    flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", textAlign: "right", minWidth: 0,
   },
 };

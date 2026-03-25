@@ -74,7 +74,7 @@ export default function Dashboard() {
     computeRoute();
   }, [fromLocation, toLocation]);
 
-  // Fetch continent images — used both for hero slideshow AND carousel
+  // Fetch continent images for hero slideshow
   useEffect(() => {
     const fetchImages = async () => {
       const results = await Promise.all(
@@ -82,7 +82,6 @@ export default function Dashboard() {
           try {
             const res  = await fetch(`https://api.unsplash.com/search/photos?query=${encodeURIComponent(c.query)}&client_id=${UNSPLASH_KEY}&per_page=3&orientation=landscape`);
             const data = await res.json();
-            // Pick a random one from top 3 for variety
             const picks = data.results || [];
             const pick  = picks[Math.floor(Math.random() * Math.min(picks.length, 3))];
             return { name: c.name, url: pick?.urls?.regular || "" };
@@ -110,7 +109,7 @@ export default function Dashboard() {
 
   const bothSelected = fromLocation && toLocation;
   const currentBg    = continentImages[heroBgIndex]?.url || "";
-  const currentName  = continentImages[heroBgIndex]?.name || "";
+  const currentName  = continentImages[heroBgIndex]?.name || continents[heroBgIndex]?.name || "";
 
   return (
     <div className="app-page">
@@ -124,7 +123,7 @@ export default function Dashboard() {
         backgroundPosition: "center",
         transition:         "background-image 1.2s ease-in-out",
       }}>
-        {/* Live continent label */}
+        {/* Live continent label - shows the current continent name */}
         {currentName && (
           <div className="hero-location-pill">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -145,7 +144,7 @@ export default function Dashboard() {
           Plan your perfect adventure — live routes, weather forecasts &amp; safety tips in one place.
         </p>
 
-        {/* Slide dots */}
+        {/* Slide dots for the 7 continents */}
         {continentImages.length > 0 && (
           <div className="hero-dots">
             {continentImages.map((_, i) => (
@@ -153,6 +152,7 @@ export default function Dashboard() {
                 key={i}
                 className={`hero-dot${i === heroBgIndex ? " hero-dot--active" : ""}`}
                 onClick={() => setHeroBgIndex(i)}
+                aria-label={`View ${continentImages[i]?.name || `slide ${i + 1}`}`}
               />
             ))}
           </div>
@@ -180,7 +180,7 @@ export default function Dashboard() {
       {/* ══════════ SEARCH ══════════ */}
       <section className="search-section">
         <div className="search-section-label">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#84cc16" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
           </svg>
           Plan Your Route
@@ -189,7 +189,7 @@ export default function Dashboard() {
         {/* Favorites info banner */}
         {fromFavorites && toLocation && (
           <div className="info-banner">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#84cc16" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
             </svg>
             <span>Destination set to <strong>{toLocation.name}</strong>. Now enter your starting point.</span>
@@ -255,9 +255,6 @@ export default function Dashboard() {
           <TrekInfo difficulty="Varies" />
         </section>
       )}
-
-
-
     </div>
   );
 }
