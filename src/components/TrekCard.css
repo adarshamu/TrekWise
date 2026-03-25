@@ -11,16 +11,15 @@
   display: flex;
   flex-direction: column;
   height: auto;
-  min-height: min-content;
+  min-height: auto;   /* ✅ corrected */
   overflow: visible;
   width: 100%;
   max-width: 380px;
 }
 
-/* Card wrapper container - controls the outer width */
 .trek-card-wrapper {
   width: 100%;
-  max-width: 380px;
+  max-width: 100%;   /* ✅ allow full fit */
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -66,7 +65,6 @@
   position: relative;
 }
 
-/* Small dashed line connecting the pins */
 .location-flow::before {
   content: "";
   position: absolute;
@@ -108,7 +106,7 @@
   gap: 16px;
   padding-top: 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  margin-top: auto;
+  /* margin-top: auto; ❌ removed */
 }
 
 .stat-box {
@@ -191,12 +189,10 @@
   transform: translateY(-2px);
 }
 
-/* Ensure no text-decoration on any nested links */
 .trek-card a {
   text-decoration: none !important;
 }
 
-/* Make the Google Maps <a> look exactly like the old button */
 a.view-details-btn {
   text-decoration: none;
   display: flex;
@@ -205,7 +201,6 @@ a.view-details-btn {
   gap: 6px;
 }
 
-/* Disabled state when no destination is selected */
 button.view-details-btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
@@ -225,85 +220,73 @@ button.view-details-btn:disabled:hover {
   flex-shrink: 0;
 }
 
-/* ══════════ MOBILE — iPhone XR / Pixel 7 ══════════ */
+/* MOBILE */
 @media (max-width: 480px) {
   .trek-card {
     padding: 18px 16px !important;
     border-radius: 16px !important;
     max-width: 100%;
   }
-  
   .trek-card-wrapper {
     max-width: 100%;
   }
-  
   .trek-title {
     font-size: 1.05rem !important;
     margin-bottom: 14px !important;
   }
-  
   .stats-grid {
     gap: 10px !important;
     padding-top: 12px !important;
   }
-  
   .stat-value {
     font-size: 0.95rem !important;
   }
-  
   .stat-label {
     font-size: 0.62rem !important;
   }
-  
   .view-details-btn {
     padding: 12px !important;
     font-size: 0.82rem !important;
     margin-top: 14px !important;
     border-radius: 12px !important;
   }
-  
   .loc-item {
     font-size: 0.82rem !important;
   }
-  
   .location-flow {
     gap: 10px !important;
     margin-bottom: 16px !important;
   }
-  
   .pin-icon {
     width: 14px !important;
     height: 14px !important;
   }
-  
   .location-flow::before {
     left: 5px !important;
   }
 }
 
-/* Tablet Responsive */
+/* Tablet */
 @media (min-width: 481px) and (max-width: 768px) {
   .trek-card-wrapper {
     max-width: 340px;
   }
-  
   .trek-card {
     max-width: 100%;
   }
-  
   .trek-title {
     font-size: 1.25rem;
   }
 }
 
-/* Desktop - ensures cards don't get too wide in grid layouts */
+/* Desktop */
 @media (min-width: 769px) {
   .trek-card-wrapper {
     max-width: 360px;
   }
 }
 
-/* Optional: Add a subtle glow effect for difficulty levels */
+/* Difficulty badge glow */
 .trek-badge[data-difficulty="Easy"] {
   background: rgba(34, 197, 94, 0.12);
   color: #4ade80;
