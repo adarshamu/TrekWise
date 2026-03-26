@@ -1,4 +1,3 @@
-// Map Open-Meteo weather codes to description + OpenWeatherMap-style icon
 function interpretWeatherCode(code) {
   if (code === 0) return { description: "Clear Sky", icon: "01d" };
   if (code === 1) return { description: "Mainly Clear", icon: "01d" };
@@ -15,9 +14,7 @@ function interpretWeatherCode(code) {
   return { description: "Unknown", icon: "01d" };
 }
 
-/**
- * Get today's current weather
- */
+
 export async function getTodayWeather(lat, lon) {
   try {
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code,uv_index,apparent_temperature&timezone=auto`;

@@ -17,7 +17,7 @@ var teamMembers = [
   {
     name: "Monal Jiya Rasquinha",
     role: "Project Planning & API Integration Developer",
-    email: "230933@sdmcujire.in",
+    email: "monalrasquinha@gmail.com",
     github: "monalrasquinha",
     linkedin: "monal-rasquinha-799515218",
     initials: "MJ",
@@ -30,7 +30,7 @@ var teamMembers = [
     role: "Testing & Project Documentaion",
     email: "230934@sdmcujire.in",
     github: "Nanjappa9",
-    linkedin: "--",
+    linkedin: "nanjappa-k-k-195b6229b",
     initials: "NK",
     gradient: "linear-gradient(135deg, #b45309, #78350f)",
     accent: "#d97706",
