@@ -3,18 +3,16 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 export default function Favorites() {
-  const favorites      = useStore((s) => s.favorites);
+  const favorites = useStore((s) => s.favorites);
   const removeFavorite = useStore((s) => s.removeFavorite);
-  const navigate       = useNavigate();
+  const navigate = useNavigate();
 
-  const [search,   setSearch]   = useState("");
+  const [search, setSearch] = useState("");
   const [removing, setRemoving] = useState(null);
 
-  // Build Google Maps embed URL — no API key required
   const mapEmbedUrl = (lat, lng) =>
     `https://maps.google.com/maps?q=${lat},${lng}&z=13&output=embed`;
 
-  // Build Google Maps directions URL for the navigate button
   const mapsDirectionsUrl = (lat, lng) =>
     `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
 
@@ -37,16 +35,44 @@ export default function Favorites() {
   return (
     <div style={styles.page} className="fav-page">
       <style>{`
+        .fav-page {
+          padding-top: 110px; /* Increased to give more space below navbar */
+        }
+
+        .fav-header {
+          margin-top: 20px; /* Pushes the favorites header down a little */
+        }
+
+        @media (max-width: 768px) {
+          .fav-page {
+            padding-top: 100px;
+          }
+          .fav-header {
+            margin-top: 15px;
+          }
+        }
+
         @media (max-width: 480px) {
-          .fav-page { padding: 20px 14px 60px !important; }
-          .fav-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
-          .fav-header { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; }
-          .fav-search input { width: 100% !important; }
-          .fav-search { width: 100% !important; }
+          .fav-page {
+            padding: 100px 14px 80px;
+          }
+          .fav-header {
+            margin-top: 12px;
+          }
+          .fav-grid {
+            grid-template-columns: 1fr !important;
+            gap: 18px !important;
+          }
+          .fav-search {
+            width: 100% !important;
+          }
+          .fav-search input {
+            width: 100% !important;
+          }
         }
       `}</style>
 
-      {/* ── Header ── */}
+      {/* Header - Now pushed down a little */}
       <div style={styles.header} className="fav-header">
         <div style={styles.headerLeft}>
           <div style={styles.headerIcon}>
@@ -66,8 +92,19 @@ export default function Favorites() {
 
         {favorites.length > 0 && (
           <div style={styles.searchWrapper} className="fav-search">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={styles.searchIcon}>
-              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            <svg 
+              width="15" 
+              height="15" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="#94a3b8" 
+              strokeWidth="2" 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+              style={styles.searchIcon}
+            >
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
             </svg>
             <input
               style={styles.searchInput}
@@ -79,7 +116,7 @@ export default function Favorites() {
         )}
       </div>
 
-      {/* ── Empty State ── */}
+      {/* Empty State */}
       {favorites.length === 0 && (
         <div style={styles.emptyState}>
           <div style={styles.emptyIcon}>
@@ -94,47 +131,49 @@ export default function Favorites() {
           <button
             style={styles.emptyBtn}
             onClick={() => navigate("/dashboard")}
-            onMouseEnter={(e) => e.currentTarget.style.background = "#1d4ed8"}
-            onMouseLeave={(e) => e.currentTarget.style.background = "#2563eb"}
           >
             Explore Destinations
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
             </svg>
           </button>
         </div>
       )}
 
-      {/* ── No search results ── */}
+      {/* No Results */}
       {favorites.length > 0 && filtered.length === 0 && (
-        <div style={{ textAlign: "center", padding: "60px 20px" }}>
-          <p style={{ fontSize: "1rem", fontWeight: 600, color: "#94a3b8" }}>
+        <div style={{ textAlign: "center", padding: "80px 20px" }}>
+          <p style={{ fontSize: "1.05rem", fontWeight: 600, color: "#94a3b8" }}>
             No places match "{search}"
           </p>
         </div>
       )}
 
-      {/* ── Grid ── */}
+      {/* Grid */}
       <div style={styles.grid} className="fav-grid">
         {filtered.map((place) => (
           <div
             key={place.id}
             style={{
               ...styles.card,
-              opacity:   removing === place.id ? 0 : 1,
+              opacity: removing === place.id ? 0 : 1,
               transform: removing === place.id ? "scale(0.95) translateY(8px)" : "scale(1) translateY(0)",
               transition: "opacity 0.35s ease, transform 0.35s ease, box-shadow 0.25s",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.boxShadow = "0 12px 40px rgba(0,0,0,0.13)";
-              e.currentTarget.style.transform = "translateY(-4px)";
+              if (removing !== place.id) {
+                e.currentTarget.style.boxShadow = "0 12px 40px rgba(0,0,0,0.13)";
+                e.currentTarget.style.transform = "translateY(-4px)";
+              }
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.boxShadow = "0 4px 20px rgba(0,0,0,0.07)";
-              e.currentTarget.style.transform = removing === place.id ? "scale(0.95)" : "translateY(0)";
+              if (removing !== place.id) {
+                e.currentTarget.style.boxShadow = "0 4px 20px rgba(0,0,0,0.07)";
+                e.currentTarget.style.transform = "translateY(0)";
+              }
             }}
           >
-            {/* ── Google Maps embed ── */}
             <div style={styles.mapWrapper}>
               <iframe
                 title={place.name}
@@ -142,19 +181,15 @@ export default function Favorites() {
                 style={styles.mapIframe}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                allowFullScreen={false}
               />
-
-              {/* Overlay to block iframe from stealing clicks */}
               <div style={styles.mapClickBlocker} />
 
-              {/* X remove button */}
               <button
                 style={styles.removeBtn}
                 onClick={() => handleRemove(place.id)}
                 title="Remove from favorites"
-                onMouseEnter={(e) => e.currentTarget.style.background = "rgba(220,38,38,0.9)"}
-                onMouseLeave={(e) => e.currentTarget.style.background = "rgba(0,0,0,0.6)"}
+                onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(220,38,38,0.9)")}
+                onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(0,0,0,0.6)")}
               >
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="18" y1="6" x2="6" y2="18"/>
@@ -162,7 +197,6 @@ export default function Favorites() {
                 </svg>
               </button>
 
-              {/* Heart badge */}
               <div style={styles.heartBadge}>
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="#e11d48" stroke="#e11d48" strokeWidth="1.5">
                   <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
@@ -170,12 +204,9 @@ export default function Favorites() {
               </div>
             </div>
 
-            {/* ── Card body ── */}
             <div style={styles.cardBody}>
-              {/* Name */}
               <h3 style={styles.cardTitle}>{place.name}</h3>
 
-              {/* Coordinates chip */}
               <div style={styles.coordsRow}>
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="10"/>
@@ -187,19 +218,17 @@ export default function Favorites() {
                 </span>
               </div>
 
-              {/* Action buttons row */}
               <div style={styles.actionsRow}>
-                {/* Navigate in TrekWise */}
                 <button
                   style={styles.navigateBtn}
                   onClick={() => handleNavigate(place)}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.background = "#1d4ed8";
-                    e.currentTarget.style.transform  = "translateY(-1px)";
+                    e.currentTarget.style.transform = "translateY(-1px)";
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.background = "#2563eb";
-                    e.currentTarget.style.transform  = "translateY(0)";
+                    e.currentTarget.style.transform = "translateY(0)";
                   }}
                 >
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -208,14 +237,13 @@ export default function Favorites() {
                   Navigate Here
                 </button>
 
-                {/* Open full Google Maps */}
                 <a
                   href={mapsDirectionsUrl(place.lat, place.lng)}
                   target="_blank"
                   rel="noreferrer"
                   style={styles.mapsLinkBtn}
-                  onMouseEnter={(e) => e.currentTarget.style.background = "#f1f5f9"}
-                  onMouseLeave={(e) => e.currentTarget.style.background = "#f8fafc"}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = "#f1f5f9")}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = "#f8fafc")}
                   title="Open in Google Maps"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#475569" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -230,7 +258,6 @@ export default function Favorites() {
         ))}
       </div>
 
-      {/* ── Footer tip ── */}
       {favorites.length > 0 && (
         <p style={styles.tip}>
           Click <strong>Navigate Here</strong> to set as destination on the dashboard — then enter your starting point to get directions.
@@ -239,11 +266,12 @@ export default function Favorites() {
     </div>
   );
 }
+
 const styles = {
   page: {
     maxWidth: 1200,
     margin: "0 auto",
-    padding: "40px 32px 80px",
+    padding: "40px 32px 100px",
     fontFamily: "'DM Sans', 'Inter', system-ui, sans-serif",
     minHeight: "100vh",
     background: "linear-gradient(170deg, #0a1628 0%, #0f1e30 40%, #0d1b2a 100%)",
@@ -295,7 +323,6 @@ const styles = {
     position: "absolute",
     left: 14,
     pointerEvents: "none",
-    stroke: "rgba(255,255,255,0.4)",
   },
   searchInput: {
     paddingLeft: 40,
@@ -310,7 +337,6 @@ const styles = {
     background: "rgba(255,255,255,0.05)",
     outline: "none",
     width: 240,
-    "::placeholder": { color: "rgba(255,255,255,0.4)" },
   },
   emptyState: {
     display: "flex",
@@ -370,7 +396,7 @@ const styles = {
     overflow: "hidden",
     border: "1px solid rgba(255,255,255,0.08)",
     boxShadow: "0 4px 20px rgba(0,0,0,0.2)",
-    cursor: "default",
+    transition: "all 0.25s ease",
   },
   mapWrapper: {
     position: "relative",
@@ -389,7 +415,6 @@ const styles = {
     position: "absolute",
     inset: 0,
     zIndex: 1,
-    background: "transparent",
   },
   removeBtn: {
     position: "absolute",
